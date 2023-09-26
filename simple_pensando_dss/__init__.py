@@ -1,7 +1,7 @@
-from rest_client.api import API
-from rest_client.resource import Resource
-from rest_client.request import make_request
-from rest_client.models import Request
+from .rest_client.api import API
+from .rest_client.resource import Resource
+from .rest_client.request import make_request
+from .rest_client.models import Request
 from types import MethodType
 
 import logging
