@@ -38,7 +38,7 @@ Add IPs to ipcollections
     username = os.environ.get("psm_username", "admin")
     password = os.environ.get("psm_password") or getpass()
     url = os.environ.get("psm_url") or input("PSM URL:")
-
+    psm_tn_name=os.environ.get('psm_tenant') or input("PSM Tenant:") or "default"    
 
     psm = PensandoDSSClient(url, username=username, password=password, ssl_verify=False)
     psm.login()
