@@ -1,1 +1,2 @@
-This code is an extended fork of https://github.com/allisson/python-simple-rest-client
+This code is an extended fork of https://github.com/allisson/python-simple-rest-client I removed the requirement of defining every endpoint manually, and some other syntactic sugar.
+
