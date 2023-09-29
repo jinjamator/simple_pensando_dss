@@ -60,7 +60,6 @@ class BaseResource:
         }
 
     def __call__(self, instance):
-
         return getattr(self, instance)
 
     def __getattr__(self, instance):

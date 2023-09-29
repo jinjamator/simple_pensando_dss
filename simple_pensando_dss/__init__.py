@@ -11,6 +11,7 @@ from pprint import pformat
 class PensandoDSSResource(Resource):
     pass
 
+
 class PensandoDSSClient(object):
     def __init__(self, url, **kwargs):
         self._log = logging.getLogger()
@@ -18,10 +19,10 @@ class PensandoDSSClient(object):
 
         if self._base_url[:-1] != "/":
             self._base_url + "/"
-            
+
         self._username = kwargs.get("username", None)
         self._password = kwargs.get("password", None)
-        self._tenant = kwargs.get("tenant", 'default')
+        self._tenant = kwargs.get("tenant", "default")
 
         self.api = API(
             api_root_url=url,  # base api url
@@ -46,13 +47,16 @@ class PensandoDSSClient(object):
             self._tenant = tenant
 
         response = self.api.v1.login.create(
-            body={"username": self._username, "password": self._password,'tenant': self._tenant}
+            body={
+                "username": self._username,
+                "password": self._password,
+                "tenant": self._tenant,
+            }
         ).client_response
-        for cookie_name,cookie_value in  response.cookies.items():
-            if cookie_name == 'sid':
+        for cookie_name, cookie_value in response.cookies.items():
+            if cookie_name == "sid":
                 self.api.headers["Cookie"] = f"sid={cookie_value}"
-                
+
                 logging.debug("Got authenticaiton cookie")
 
-        
         return True
