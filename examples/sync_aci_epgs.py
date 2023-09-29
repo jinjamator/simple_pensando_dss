@@ -66,7 +66,7 @@ for epg in json.loads(apic.get(f'/api/node/class/fvAEPg.json?query-target-filter
                 "spec": {
                     "addresses": IPs
                 }
-                }
+            }
             )
 
         except ClientError as e:
@@ -79,7 +79,7 @@ for epg in json.loads(apic.get(f'/api/node/class/fvAEPg.json?query-target-filter
                     "spec": {
                         "addresses": IPs
                     }
-                    }
+                }
                 )
     else:
         # Empty result for epg -> try to delete group
@@ -100,7 +100,7 @@ for epg in json.loads(apic.get(f'/api/node/class/fvAEPg.json?query-target-filter
                 "spec": {
                     "addresses": ["127.0.0.255"]
                 }
-                }
+            }
             )
             else:
                 print(e)
