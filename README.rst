@@ -28,27 +28,16 @@ Examples
 Add IPs to ipcollections
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
-.. code-block:: python
-
-    from simple_pensando_dss import PensandoDSSClient
-    from getpass import getpass
-    import os
-
-    username=os.environ.get('psm_username','admin')
-    password=os.environ.get('psm_password') or getpass()
-    url=os.environ.get('psm_url') or input("PSM URL:")
+.. literalinclude:: examples/update_ip_collections.py
+    :language: python
 
 
-    psm=PensandoDSSClient(url,username=username,password=password,ssl_verify=False)
-    psm.login()
-    
-    // every endpoint has list/create/update/delete functions and every result body, headers, status_code properties
+Sync ACI endpoints to ip_collections
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-    for ipcollection in psm.api.configs.network.v1.tenant.default.ipcollections.list().body['items']:
-        ipcollection['spec']['addresses'].append('1.1.1.1')
-        print(f"Adding 1.1.1.1 to {ipcollection['meta']['name']}")
-        result=psm.api.configs.network.v1.tenant.default.ipcollections.update(ipcollection['meta']['name'],body=ipcollection)
-        
+.. literalinclude:: examples/update_ip_collections.py
+    :language: python
+
 
 Contribute
 ----------
@@ -61,6 +50,7 @@ Roadmap
 
 Selected Roadmap items:
     * add more documentation
+    * add some more examples
 
 For documentation please refer to https://simple_pensando_dss.readthedocs.io/en/latest/
 

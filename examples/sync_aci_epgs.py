@@ -1,7 +1,10 @@
 from simple_pensando_dss import PensandoDSSClient
 from simple_pensando_dss.rest_client.exceptions import ClientError
+try:
+    from acitoolkit.acisession import Session as aci_session
+except ImportError:
+    print("please install acitoolkit by running pip3 install aci-toolkit")
 
-from acitoolkit.acisession import Session as aci_session
 from getpass import getpass
 from pprint import pprint
 import os
@@ -11,7 +14,7 @@ import json
 # logging.basicConfig(level=logging.DEBUG)
 
 #
-#  !!!Warning!!! this is just a POC, as for production this should use APIC subscriptions, but it shows the create/update/delete functions of the psm api
+#  !!!Warning!!! this is just for POC, as for production this should use APIC subscriptions and use logging and so on, but it shows the create/update/delete functions of the psm api
 # 
 
 username=os.environ.get('psm_username','admin')
