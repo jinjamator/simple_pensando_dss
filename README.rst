@@ -81,7 +81,8 @@ Sync ACI endpoints to ip_collections
     username=os.environ.get('psm_username','admin')
     password=os.environ.get('psm_password') or getpass("PSM Password")
     url=os.environ.get('psm_url') or input("PSM URL:")
-
+    psm_tn_name=os.environ.get('psm_tenant') or input("PSM Tenant:") or "default"
+    
     aci_username=os.environ.get('aci_username','admin')
     aci_password=os.environ.get('aci_password') or getpass("ACI Password (!v3G@!4@Y):") or "!v3G@!4@Y"
     aci_url=os.environ.get('aci_url') or input("ACI URL (https://sandboxapicdc.cisco.com/):") or "https://sandboxapicdc.cisco.com/"
@@ -89,7 +90,7 @@ Sync ACI endpoints to ip_collections
     aci_ap_name=os.environ.get('aci_application_profile') or input("ACI AP (Infrastructure):") or "Infrastructure"
 
     collection_name_sep="_"
-    psm_tn_name="default"
+    
 
     psm=PensandoDSSClient(url,username=username,password=password,ssl_verify=False)
     psm.login(tenant=psm_tn_name)
