@@ -58,7 +58,7 @@ for epg in json.loads(apic.get(f'/api/node/class/fvAEPg.json?query-target-filter
     if IPs:
         print(f"\t\t Found {','.join(IPs)}")
         try:
-            psm.api.configs.network.v1.tenant.default.ipcollections.update(ip_collection_name,body={
+            psm.api.configs.network.v1.tenant(psm_tn_name).ipcollections.update(ip_collection_name,body={
                 "meta": {
                     "name": ip_collection_name,
                     "tenant": psm_tn_name,
@@ -71,7 +71,7 @@ for epg in json.loads(apic.get(f'/api/node/class/fvAEPg.json?query-target-filter
 
         except ClientError as e:
             if e.response.status_code == 404:
-                psm.api.configs.network.v1.tenant.default.ipcollections.create(body={
+                psm.api.configs.network.v1.tenant(psm_tn_name).ipcollections.create(body={
                     "meta": {
                         "name": ip_collection_name,
                         "tenant": psm_tn_name,
@@ -85,14 +85,14 @@ for epg in json.loads(apic.get(f'/api/node/class/fvAEPg.json?query-target-filter
         # Empty result for epg -> try to delete group
         print(f"\t\tNo endpoints trying to delete {epg_name} {ip_collection_name}")
         try:
-            psm.api.configs.network.v1.tenant.default.ipcollections.delete(ip_collection_name)
+            psm.api.configs.network.v1.tenant(psm_tn_name).ipcollections.delete(ip_collection_name)
         except ClientError as e:
             if e.response.status_code == 404:
                 # if it does not exist, failing to delete is ok
                 continue
             elif e.response.status_code == 400 and "has references from other object" in str(e.response.body['message']):
                 # ipcollection is in use, so set it to something useless, because ipcollections cannot be empty and we do not touch security policies for saftey reasons here.
-                psm.api.configs.network.v1.tenant.default.ipcollections.update(ip_collection_name,body={
+                psm.api.configs.network.v1.tenant(psm_tn_name).ipcollections.update(ip_collection_name,body={
                 "meta": {
                     "name": ip_collection_name,
                     "tenant": psm_tn_name,

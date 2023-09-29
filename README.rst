@@ -42,10 +42,10 @@ Add IPs to ipcollections
 
     psm = PensandoDSSClient(url, username=username, password=password, ssl_verify=False)
     psm.login()
-    for ipcollection in psm.api.configs.network.v1.tenant.default.ipcollections.list().body["items"]:
+    for ipcollection in psm.api.configs.network.v1.tenant(psm_tn_name).ipcollections.list().body["items"]:
         ipcollection["spec"]["addresses"].append("1.1.1.1")
         print(f"Adding 1.1.1.1 to {ipcollection['meta']['name']}")
-        result = psm.api.configs.network.v1.tenant.default.ipcollections.update(
+        result = psm.api.configs.network.v1.tenant(psm_tn_name).ipcollections.update(
             ipcollection["meta"]["name"], body=ipcollection
         )
 
@@ -119,7 +119,7 @@ Sync ACI endpoints to ip_collections
         if IPs:
             print(f"\t\t Found {','.join(IPs)}")
             try:
-                psm.api.configs.network.v1.tenant.default.ipcollections.update(ip_collection_name,body={
+                psm.api.configs.network.v1.tenant(psm_tn_name).ipcollections.update(ip_collection_name,body={
                     "meta": {
                         "name": ip_collection_name,
                         "tenant": psm_tn_name,
@@ -132,7 +132,7 @@ Sync ACI endpoints to ip_collections
 
             except ClientError as e:
                 if e.response.status_code == 404:
-                    psm.api.configs.network.v1.tenant.default.ipcollections.create(body={
+                    psm.api.configs.network.v1.tenant(psm_tn_name).ipcollections.create(body={
                         "meta": {
                             "name": ip_collection_name,
                             "tenant": psm_tn_name,
@@ -146,14 +146,14 @@ Sync ACI endpoints to ip_collections
             # Empty result for epg -> try to delete group
             print(f"\t\tNo endpoints trying to delete {epg_name} {ip_collection_name}")
             try:
-                psm.api.configs.network.v1.tenant.default.ipcollections.delete(ip_collection_name)
+                psm.api.configs.network.v1.tenant(psm_tn_name).ipcollections.delete(ip_collection_name)
             except ClientError as e:
                 if e.response.status_code == 404:
                     # if it does not exist, failing to delete is ok
                     continue
                 elif e.response.status_code == 400 and "has references from other object" in str(e.response.body['message']):
                     # ipcollection is in use, so set it to something useless, because ipcollections cannot be empty and we do not touch security policies for saftey reasons here.
-                    psm.api.configs.network.v1.tenant.default.ipcollections.update(ip_collection_name,body={
+                    psm.api.configs.network.v1.tenant(psm_tn_name).ipcollections.update(ip_collection_name,body={
                     "meta": {
                         "name": ip_collection_name,
                         "tenant": psm_tn_name,
