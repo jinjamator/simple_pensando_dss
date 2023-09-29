@@ -47,11 +47,16 @@ class BaseResource:
     def default_actions(self):
         return {
             "list": {"method": "GET", "url": self.resource_name},
+            "get": {"method": "GET", "url": self.resource_name},
             "create": {"method": "POST", "url": self.resource_name},
+            "post": {"method": "POST", "url": self.resource_name},
             "retrieve": {"method": "GET", "url": self.resource_name + "/{}"},
             "update": {"method": "PUT", "url": self.resource_name + "/{}"},
+            "put": {"method": "PUT", "url": self.resource_name + "/{}"},
             "partial_update": {"method": "PATCH", "url": self.resource_name + "/{}"},
+            "patch": {"method": "PATCH", "url": self.resource_name + "/{}"},
             "destroy": {"method": "DELETE", "url": self.resource_name + "/{}"},
+            "delete": {"method": "DELETE", "url": self.resource_name + "/{}"},
         }
 
     def __call__(self, instance):
